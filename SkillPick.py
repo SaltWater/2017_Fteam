@@ -22,9 +22,9 @@ def pickup(text):
             if subnode.surface in skill:
                 subnode=subnode.next
                 if subnode.surface.count("成功"):
-                    flag=True #returnText2+="をみつけた"
+                    flag=True
                 else:
-                    flag=False #returnText2+="がみつからなかった"
+                    flag=False
                 subnode=subnode.next
                 while subnode:
                     #print(subnode.surface)
