@@ -7,6 +7,7 @@ def pickup(text,list):
     node = tagger1.parseToNode(text)
     returnText=""
     returnText2=""
+    sub2node=[]
     flag=False
     
     while node:
@@ -14,6 +15,9 @@ def pickup(text,list):
             returnText2+=returnText
             returnText2+="は"
         if node.surface.count("に"):
+            if sub2node[len(sub2node)-2].surface.count("の"):
+                returnText2+=sub2node[len(sub2node)-3].surface
+                returnText2+="の"
             returnText2+=subnode.surface
             returnText2+=node.surface
         #print(node.surface)
@@ -41,6 +45,7 @@ def pickup(text,list):
                     break
         returnText+=node.surface #スキルが無いときはそのまま返す
         subnode=node
+        sub2node.append(node)
         node=node.next
 
     if returnText2!="":
