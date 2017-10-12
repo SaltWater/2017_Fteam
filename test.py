@@ -12,5 +12,5 @@ for w in list:
     if w[0]==name:
         print(w[1])
         break
-
+print(w[0])
 
