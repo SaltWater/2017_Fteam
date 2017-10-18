@@ -54,7 +54,7 @@ def pickup(text,list):
 
         return returnText
 
-file="test.txt"
+file="skill.txt"
 ld = open(file)
 lines = ld.readlines()
 list=[]
