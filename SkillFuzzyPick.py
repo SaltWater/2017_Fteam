@@ -59,9 +59,9 @@ for i in range(len(playlog)):
                                 for line in lines:
                                     playerSkill.append(line.split())
                                 for z in playerSkill:
-                                    if node.surface.count(z[0])):
+                                    if node.surface.count(z[0]):
                                         if int(node2.surface)<z[1]:
                                             flag=1
                                         else:
-                                            
-        node=node.next
+                                            flag=2
+    node=node.next
