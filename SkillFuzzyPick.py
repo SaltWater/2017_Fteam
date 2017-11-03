@@ -109,9 +109,9 @@ for i in range(len(playlog)):
                 for n in range(7):
                     temp.append(playlog[i+n-3])
                 logs.append(temp)
-#                print (temp)
+                print (temp)
                 rrr=str(pickup(temp,w))
-#                print(rrr)
+                print(rrr)
                 f.writelines(rrr)
                 f.write("\n")
         node=node.next
