@@ -2,6 +2,7 @@ import random
 import sys
 import MeCab
 import re
+RNG=7
 
 def pickup(temp,w):
     tagger = MeCab.Tagger("mecabrc")
@@ -12,11 +13,12 @@ def pickup(temp,w):
     returnText1=""
     returnText2=""
     node=tagger.parseToNode(str(temp[3]))
-
     
-    for n in range(4):
+    
+    for n in range(RNG):
         checktxt=str(temp[3+ss])
         node=tagger.parseToNode(checktxt)
+        ss=0
         while node:
 #            print("主語:"+returnText)
 #            print("探査単語    "+node.surface)
@@ -37,6 +39,9 @@ def pickup(temp,w):
             if node.surface.count("失敗"):
                 flag=2
             node=node.next
+            if flag!=0:
+                print("flag:"+str(flag))
+                print("ss:"+str(ss))
         ss=ss+1
         if flag!=0:
             break
@@ -106,7 +111,7 @@ for i in range(len(playlog)):
 #                print("検出技能:"+node.surface)
 #                print(playlog[i])
                 temp=[]
-                for n in range(7):
+                for n in range(RNG+3):
                     temp.append(playlog[i+n-3])
                 logs.append(temp)
                 print (temp)
