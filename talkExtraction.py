@@ -7,16 +7,22 @@ playlog=[]
 
 file="akai_kabutomushi.txt"
 ld = open(file)
-lines = ld.readlines()
-flag=0
-for line in lines:
-#    print(line)
-    if flag==1:
-        print(line)
-        flag=0
-    node=tagger.parseToNode(line)
-    while node:
-        if node.surface.count("「"):
-            flag=1
+
+try:
+    lines = ld.readlines()
+    flag=0
+    for line in lines:
+    #    print(line)
+        if flag==1:
             print(line)
-        node=node.next
+            flag=0
+        node=tagger.parseToNode(line)
+        while node:
+            if node.surface.count("「"):
+                flag=1
+                print(line.replace("\n",""))
+                break
+            node=node.next
+        beforeline=line
+finally:
+    ld.close()
