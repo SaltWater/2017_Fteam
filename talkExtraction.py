@@ -8,8 +8,8 @@ nlist=[]
 slist=[]
 file="akai_kabutomushi.txt"
 ld = open(file)
-file="talkExtraction.csv"
-outtext=open(file,w)
+file="talkExtraction.txt"
+outtext=open(file,"w")
 
 try:
     lines = ld.readlines()
