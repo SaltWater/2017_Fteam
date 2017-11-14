@@ -13,6 +13,7 @@ file="talkExtraction.txt"
 outtext=open(file,"w")
 
 for novel in test:
+    print(novel)
     f=open(novel)
     lines=f.readlines()
     flag=0
@@ -29,7 +30,7 @@ for novel in test:
             #        slist.append(node.surface)
             #        node=node.next
             #    node=node.next
-            if len(nlist)!=0 and len(line)<20 and len(line)>2 :
+            if len(nlist)!=0 and len(line)<20 and len(line)>2 and line.find("「")<0:
                 #print(str(nlist))
                 outtext.write(str(nlist)+"\n")
                 outtext.write(str(line)+"\n\n")
