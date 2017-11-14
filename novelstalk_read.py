@@ -8,9 +8,9 @@ test=glob.glob("testfile/*.txt")
 
 playlog=[]
 nlist=[]
-slist=[]
+slist=""
 file="talkExtraction.txt"
-outtext=open(file,"a")
+outtext=open(file,"w")
 
 for novel in test:
     f=open(novel)
@@ -22,18 +22,19 @@ for novel in test:
         if flag==1:
             #print(line.replace("\n",""))
             flag=0
-            while node:
-                feats=node.feature.split(",")
-                if feats[0]=="動詞":
-                    slist.append(node.surface)
-                    node=node.next
-                node=node.next
-            if len(nlist)!=0 and len(slist)!=0:
-                print(str(nlist))
-                outtext.write(str(nlist))
-                outtext.write(str(slist))
+            line=line.replace("\n","")
+            #while node:
+            #    feats=node.feature.split(",")
+            #    if feats[0]=="動詞":
+            #        slist.append(node.surface)
+            #        node=node.next
+            #    node=node.next
+            if len(nlist)!=0 and len(line)<20 and len(line)>2 :
+                #print(str(nlist))
+                outtext.write(str(nlist)+"\n")
+                outtext.write(str(line)+"\n\n")
                 #outtext.write("\n")
-                print(str(slist)+"\n")
+                #print(str(line)+"\n")
             nlist=[]
             slist=[]
         while node:
@@ -46,7 +47,7 @@ for novel in test:
                         nlist.append(node.surface)
                     node=node.next
                 flag=1
-                print(line.replace("\n",""))
+                #print(line.replace("\n",""))
                 break
             node=node.next
         beforeline=line
