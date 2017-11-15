@@ -16,15 +16,17 @@ for novel in test:
     print(novel)
     lines=f.readlines()
     for line in lines:
-        if n<16:
-            line=""
+        if line.find("-------------------------------------------------------")!=-1:
             n=n+1
+        if n<2 or line.find("-------------------------------------------------------")!=-1:
+            line=""
         #print(line)
         line=line.replace("\n","")
-        line=re.sub("［.*］","",line)
-        line=re.sub("《.*》","",line)
-        
-        if line.find("「")<0:
+        line=line.replace("　","")
+        while line.find("［")!=-1 or line.find("《")!=-1:
+            line=re.sub("［.*］","",line)
+            line=re.sub("《.*》","",line)
+        if line.find("「")==-1:
             line=line.replace("。","。\n")
         else:
             line=line.replace("「","\n「")
