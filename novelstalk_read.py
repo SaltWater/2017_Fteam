@@ -8,7 +8,7 @@ test=glob.glob("testfile/*.txt")
 
 playlog=[]
 nlist=[]
-wordMax=10
+wordMax=sys.maxsize
 slist=""
 file="talkExtraction"+str(wordMax)+".txt"
 outtext=open(file,"w")

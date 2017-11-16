@@ -3,10 +3,11 @@ import MeCab
 tagger = MeCab.Tagger("mecabrc")
 tagger.parse('')
 
-name="GM(石澤):「中華屋いこうぜ」"
+name="高橋さんが、にが笑いをして、いいました。"
 test=[]
 node=tagger.parseToNode(name)
 while node:
+    print(node.surface+node.feature)
     test.append(node.surface)
     node=node.next
 print(test)
