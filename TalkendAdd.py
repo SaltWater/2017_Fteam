@@ -56,17 +56,21 @@ try:
                             flag=flag+1
                 #print(str(pattern))
             if len(pattern)>0:
+                text1=""
                 #print(pattern[random.randint(0,len(pattern)-1)])
                 text=pattern[random.randint(0,len(pattern)-1)]
-                #node=tagger.parseToNode(text)
-                #feats=node.feature.split(",")
-                #if feats[2]=="人名":
-                #    node=node.next
-                #    while node:
-                #        syugo=syugo+node.surface
-                #        node=node.next
-                #    text=syugo
-                outtext.write(text)
+                #print(text)
+                node=tagger.parseToNode(text)
+                while node:
+                    feats=node.feature.split(",")
+                    #print(feats)
+                    if feats[2]=="人名":
+                        text1+=syugo
+                        node=node.next
+                    text1+=node.surface
+                    node=node.next
+                text1+="\n"
+                outtext.write(text1)
             pattern=[]
             matchMax=0
                 

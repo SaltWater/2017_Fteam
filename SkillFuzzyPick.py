@@ -2,38 +2,39 @@ import random
 import sys
 import MeCab
 import re
-RNG=7
+RNG=12
 
 def pickup(temp,w):
     tagger = MeCab.Tagger("mecabrc")
     tagger.parse('')
     flag=0
     ss=0
-    returnText=""
-    returnText1=""
-    returnText2=""
-    node=tagger.parseToNode(str(temp[3]))
-    
+    subject=""
+    target=""
+    result=""    
     
     for n in range(RNG):
-        checktxt=str(temp[3+ss])
+        checktxt=str(temp[int(RNG/2)+ss])
         node=tagger.parseToNode(checktxt)
         ss=0
+        
+        
+        #以下主語と目的語の探索、成否の明言があれば取得
         while node:
-#            print("主語:"+returnText)
+#            print("主語:"+subject)
 #            print("探査単語    "+node.surface)
 #            print("flag:"+str(flag))
-            if node.surface.count(":") or node.surface.count("："):
-                returnText=node.prev.surface
-                returnText+="は"
-            if node.surface.count("に") or node.surface.count("を"):
+            if ( node.surface.count(":") or node.surface.count("：") )and subject=="":
+                subject=node.prev.surface
+            if (node.surface.count("に") or node.surface.count("を"))and target=="":
                 node2=node.prev
                 if node2.surface.count(w[0]):
                     break
-                if node2.prev.surface.count("の"):
-                    returnText1+=node2.prev.surface
-                    returnText1+=node2.surface
-                returnText1+=node2.surface
+                if node2.prev.surface.count("の") and node2.feature.startswith("名詞"):
+                    print(node2.feature)
+                    target+=node2.prev.surface
+                    target+=node2.surface
+                #target+=node2.surface
             if node.surface.count("成功"):
                 flag=1
             if node.surface.count("失敗"):
@@ -46,39 +47,43 @@ def pickup(temp,w):
         if flag!=0:
             break
 
-    if flag==0:
-        for n in range(3):
-            checktxt=str(temp[2-n])
-            node=tagger.parseToNode(checktxt)
-            while node:
-                if node.surface.isdigit():
-                    filename="playerskill.txt"
-                    ld = open(filename)
-                    lines = ld.readlines()
-                    playerSkill=[]
-                    for line in lines:
-                        playerSkill.append(line.split())
-                        for z in playerSkill:
-                            if node.surface.count(z[0]):
-                                if int(node.surface)<=z[1]:
-                                    flag=1
-                                else:
-                                    flag=2
-                node=node.next
-    if flag==1:
-        returnText2=w[1]
-    if flag==2:
-        returnText2=w[2]
-    if flag==0:
-        returnText2=w[3]
-
-#    if returnText1=="":
+    if flag==0:#成否が判明していなかったら出目で判断
+        ld = open("playerskill.txt")#プレイヤーのスキル一覧ファイルを開く
+        lines = ld.readlines()
+        for line in lines:
+            if line.startswith(w[0]):#一行ずつ見ていって探してる技能があったら技能値を確保
+                skill=line.split()
+                ld.close()
+                break
         
+        for n in range(RNG):
+            if flag!=0:
+                break
+            checktxt=str(temp[n])
+            if checktxt.startswith(subject):
+                node=tagger.parseToNode(checktxt)
+                while node:
+                    if node.surface.isdigit():
+                        if int(node.surface)<=skill[1]:
+                            flag=1
+                        else:
+                            flag=2
+                        break
+                    node=node.next
+    if flag==1:
+        result=w[1]
+    if flag==2:
+        result=w[2]
+    if flag==0:
+        result=w[3]
+
+#    if target=="":
+        
+    subject+="は"
+    subject+=target
+    subject+=result
     
-    returnText+=returnText1
-    returnText+=returnText2
-    
-    return returnText
+    return subject
     
 tagger = MeCab.Tagger("mecabrc")
 tagger.parse('')
@@ -108,11 +113,11 @@ for i in range(len(playlog)):
     while node:
         for w in skills:
             if node.surface.count(w[0]):
-#                print("検出技能:"+node.surface)
-#                print(playlog[i])
+                print("検出技能:"+node.surface)
+                print(playlog[i])
                 temp=[]
-                for n in range(RNG+3):
-                    temp.append(playlog[i+n-3])
+                for n in range(RNG):
+                    temp.append(playlog[i+n-int(RNG/2)])
                 logs.append(temp)
                 print (temp)
                 rrr=str(pickup(temp,w))
