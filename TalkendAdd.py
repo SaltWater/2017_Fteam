@@ -39,6 +39,7 @@ try:
                     if flag>matchMax:
                         pattern=[]
                         matchMax=flag
+                    if flag==matchMax:
                         pattern.append(text)
                     flag=0
                 if text.find("'")!=-1:

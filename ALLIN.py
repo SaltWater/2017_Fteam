@@ -4,6 +4,7 @@ import MeCab
 import re
 
 for times in range(10):
+    #random.seed(times)
     print("\n"+str(times)+"回目")
     file="playlog.txt"
     ld = open(file)
@@ -92,9 +93,10 @@ for times in range(10):
                     node=node.next
                 for text in talkend:
                     if flag!=0:
-                        if flag>=matchMax:
+                        if flag>matchMax:
                             pattern=[]
                             matchMax=flag
+                        if flag==matchMax:
                             pattern.append(text)
                         flag=0
                     if text.find("'")!=-1:
