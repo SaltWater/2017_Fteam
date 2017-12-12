@@ -1,16 +1,5 @@
-import sys
-
-file="test.txt"
-ld = open(file)
-lines = ld.readlines()
-name="図書館"
-list=[]
-for line in lines:
-    list.append(line.split())
-print(list)
-for w in list:
-    if w[0]==name:
-        print(w[1])
-        break
-print(w[0])
-
+import sys, time
+for num, i in enumerate(range(100)):
+    sys.stdout.write("\r%d" % num)
+    sys.stdout.flush()
+    time.sleep(0.01)
