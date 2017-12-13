@@ -2,11 +2,13 @@ import random
 import sys
 import MeCab
 import re
+import oreore
 
-for times in range(10):
+
+for times in range(1):
     #random.seed(times)
     print("\n"+str(times)+"回目")
-    file="playlog.txt"
+    file="playlog2.txt"
     ld = open(file)
     lines = ld.readlines()
     playlog=[]
@@ -104,17 +106,12 @@ for times in range(10):
                             if text.find(sp)!=-1:
                                 flag=flag+1
                 if len(pattern)>0:
-                    text1=""
                     text=pattern[random.randint(0,len(pattern)-1)]
-                    node=tagger.parseToNode(text)
-                    while node:
-                        feats=node.feature.split(",")
-                        if feats[2]=="人名":
-                            text1+=syugo
-                            node=node.next
-                        text1+=node.surface
-                        node=node.next
-                    outtext.write("【"+text1+"】\n")
+                    print(oreore.syugo_pickup(text))
+                    re.sub("\n","",text)
+                    if oreore.syugo_pickup(text)!="null":
+                        re.sub(oreore.syugo_pickup(text),subject,text)
+                    outtext.write("【"+text+"】\n")
                 pattern=[]
                 matchMax=0
                     

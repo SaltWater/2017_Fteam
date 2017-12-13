@@ -50,11 +50,22 @@ try:
                 text1=""
                 text=pattern[random.randint(0,len(pattern)-1)]
                 node=tagger.parseToNode(text)
+                subjectReplace=True
                 while node:
-                    feats=node.feature.split(",")
-                    if feats[2]=="人名":
+                    if node.next!=None:
+                        node=node.next
+                        nodeflag=True
+                    if (node.surface.count("は") or node.surface.count("が")) and subjectReplace:
                         text1+=syugo
                         node=node.next
+                        subjectReplace=False
+                    if nodeflag:
+                        nodeflag=False
+                        node=node.prev
+                    #feats=node.feature.split(",")
+                    #if feats[2]=="人名":
+                    #    text1+=syugo
+                    #    node=node.next
                     text1+=node.surface
                     node=node.next
                 outtext.write("【"+text1+"】\n")
