@@ -8,7 +8,7 @@ import oreore
 for times in range(1):
     #random.seed(times)
     print("\n"+str(times)+"回目")
-    file="playlog2.txt"
+    file="playlog.txt"
     ld = open(file)
     lines = ld.readlines()
     playlog=[]
@@ -106,11 +106,10 @@ for times in range(1):
                             if text.find(sp)!=-1:
                                 flag=flag+1
                 if len(pattern)>0:
-                    text=pattern[random.randint(0,len(pattern)-1)]
-                    print(oreore.syugo_pickup(text))
-                    re.sub("\n","",text)
+                    text=str(pattern[random.randint(0,len(pattern)-1)])
+                    text=re.sub("\n","",text)
                     if oreore.syugo_pickup(text)!="null":
-                        re.sub(oreore.syugo_pickup(text),subject,text)
+                        text=re.sub(oreore.syugo_pickup(text),syugo,text)
                     outtext.write("【"+text+"】\n")
                 pattern=[]
                 matchMax=0
@@ -147,11 +146,12 @@ for times in range(1):
         text=str(playlog[i])#playlog[i]が今見ているところ
         for w in skills:
             skill=str(w[0])
-            if text.find(skill)!=-1:
+            if text.find(skill)!=-1 and len(text)<20:
                 flag=False
         if flag:
             text=re.sub('\[',"",text)
             text=re.sub('\]',"",text)
             text=re.sub('\'',"",text)
-            f.write(text+"\n")
+            if text!="":
+                f.write(text+"\n")
     f.close()
