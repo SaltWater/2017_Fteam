@@ -54,45 +54,42 @@ for times in range(10):
             text=re.sub('\[',"",text)
             text=re.sub('\]',"",text)
             text=re.sub('\'',"",text)
-            playlog[i]=text+"\n"
-            #f.writelines(text+"\n")
+            f.writelines(text+"\n")
         else:
-            playlog[i]="【"+temp+"】\n"
-            #f.write("【"+temp+"】\n")
+            f.write("【"+temp+"】\n")
     f.close()
     
     tagger = MeCab.Tagger("mecabrc")
     tagger.parse('')
     pattern=[]
     temp=[]
-    #file="outfiles/SkillReplaced"+str(times)+".txt"
-    #ld = open(file)
+    file="outfiles/SkillReplaced"+str(times)+".txt"
+    ld = open(file)
     file="aozora/talkExtraction30と丸.txt"
     intext=open(file)
     file="outfiles/talkaddOut"+str(times)+".txt"
     outtext=open(file,"w")
-
+    file="hyouka"+str(times)+".txt"
+    hyoukatxt=open(file,"w")
     try:
-        #lines = ld.readlines()
-        #talkend=intext.readlines()
+        lines = ld.readlines()
+        talkend=intext.readlines()
         flag=0
         i=1
         matchMax=0
         print("\nTalkendAdd.py")
-        for i in range(len(playlog)):
-        #for line in lines:
+        for line in lines:
+            syugo=""
             sys.stdout.write("\r%d/%d" % (i,len(playlog)))
+            i=i+1
             sys.stdout.flush()
-
-            #outtext.write(line)
-            if playlog[i].find("「")!=-1:
-            #if line.find("「")!=-1:
-                syugo=""
+            outtext.write(line)
+            for syu in range(line.find(":")):
+                syugo+=line[syu]
+            if line.find("「")!=-1 and syugo!="GM":
+                hyoukatxt.write(line)
                 temp=[]
                 node=tagger.parseToNode(line)
-                for syu in range(playlog[i].find(":")):
-                #for syu in range(line.find(":")):
-                    syugo+=line[syu]
                 while node:
                     feats=node.feature.split(",")
                     if feats[0]=="動詞" or feats[0]=="名詞":
@@ -124,11 +121,12 @@ for times in range(10):
                 if len(pattern)>0:
                     #text=str(pattern[random.randint(0,len(pattern)-1)])
                     text=pattern[times][0]
+                    hyoukatxt.write(text)
                     text=re.sub("\n","",text)
                     if oreore.syugo_pickup(text)!="null":
                         text=re.sub(oreore.syugo_pickup(text),syugo,text)
-                    playlog
-                    #outtext.write("【"+text+"】\n")
+                    hyoukatxt.write(text+"\n")
+                    outtext.write("【"+text+"】\n")
                 pattern=[]
                 matchMax=0
                     
