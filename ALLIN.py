@@ -5,7 +5,7 @@ import re
 import oreore
 from operator import itemgetter
 
-for times in range(10):
+for times in range(1):
     #random.seed(times)
     print("\n"+str(times)+"回目")
     file="playlog2.txt"
@@ -69,8 +69,10 @@ for times in range(10):
     intext=open(file)
     file="outfiles/talkaddOut"+str(times)+".txt"
     outtext=open(file,"w")
-    file="hyouka"+str(times)+".txt"
+    file="outfiles/hyouka"+str(times)+".txt"
     hyoukatxt=open(file,"w")
+    file="outfiles/hyouka.txt"
+    defile=open(file)
     try:
         lines = ld.readlines()
         talkend=intext.readlines()
@@ -118,9 +120,20 @@ for times in range(10):
                         pattern.append(matchlist.pop())
                     else:
                         matchlist.pop()
+                print(pattern)
+                op=0
+                for n in pattern:
+                    print(n[0])
+                    for d in defile:
+                        #print(d)
+                        if n[0]==d:
+                            pattern.pop(op)
+                            break
+                    op=op+1
+                print(pattern)         
                 if len(pattern)>0:
-                    #text=str(pattern[random.randint(0,len(pattern)-1)])
-                    text=pattern[times][0]
+                    text=str(pattern[random.randint(0,len(pattern)-1)][0])
+                    #text=pattern[times][0]
                     hyoukatxt.write(text)
                     text=re.sub("\n","",text)
                     if oreore.syugo_pickup(text)!="null":
@@ -134,7 +147,8 @@ for times in range(10):
         ld.close()
         intext.close()
         outtext.close()
-    
+        hyoukatxt.close()
+        defile.close()
     file="outfiles/talkaddOut"+str(times)+".txt"
     ld = open(file)
     lines = ld.readlines()
