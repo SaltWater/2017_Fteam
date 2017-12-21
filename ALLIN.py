@@ -8,7 +8,7 @@ from operator import itemgetter
 for times in range(1):
     #random.seed(times)
     print("\n"+str(times)+"回目")
-    file="playlog3.txt"
+    file="playlog2.txt"
     ld = open(file)
     lines = ld.readlines()
     playlog=[]
@@ -22,7 +22,7 @@ for times in range(1):
     for line in lines:
         skills.append(line.split())
 
-    file="outfiles/SkillReplaced"+str(times)+".txt"
+    file="outfiles2/SkillReplaced"+str(times)+".txt"
     f = open(file, 'w') # 書き込みモードで開く
     print("SkillPickSuccessFaile.py")
     for i in range(len(playlog)):
@@ -65,13 +65,13 @@ for times in range(1):
     tagger.parse('')
     pattern=[]
     temp=[]
-    file="outfiles/SkillReplaced"+str(times)+".txt"
+    file="outfiles2/SkillReplaced"+str(times)+".txt"
     ld = open(file)
     file="aozora/talkExtraction30と丸.txt"
     intext=open(file)
-    file="outfiles/talkaddOut"+str(times)+".txt"
+    file="outfiles2/talkaddOut"+str(times)+".txt"
     outtext=open(file,"w")
-    file="outfiles/hyoukaSkillReplaced"+str(times)+".txt"
+    file="outfiles2/hyoukaSkillReplaced"+str(times)+".txt"
     hyoukatxt=open(file,"w")
     try:
         lines = ld.readlines()
@@ -138,12 +138,12 @@ for times in range(1):
                     else:
                         matchlist.pop()
                 if len(pattern)>0:
-                    #text=str(pattern[random.randint(0,len(pattern)-1)])
-                    text=pattern[times][0]
+                    text=str(pattern[random.randint(0,len(pattern)-1)][0])
+                    #text=pattern[times][0]
                     hyoukatxt.write(text)
                     #hyouka.append(text)
                     text=re.sub("\n","",text)
-                    if oreore.syugo_pickup(text)!="null":
+                    if oreore.syugo_pickup(text.lstrip("と"))!="null":
                         text=re.sub(oreore.syugo_pickup(text),syugo,text)
                     outtext.write("【"+text+"】\n")
                     #hyouka.append(text)
@@ -158,7 +158,7 @@ for times in range(1):
         outtext.close()
         hyoukatxt.close()
     
-    file="outfiles/talkaddOut"+str(times)+".txt"
+    file="outfiles2/talkaddOut"+str(times)+".txt"
     ld = open(file)
     lines = ld.readlines()
     playlog=[]
@@ -172,7 +172,7 @@ for times in range(1):
     for line in lines:
         skills.append(line.split())
 
-    file="outfiles/SkillRemoved"+str(times)+".txt"
+    file="outfiles2/SkillRemoved"+str(times)+".txt"
     f = open(file, 'w') # 書き込みモードで開く
 
     print("\nSkillRemove.py")
