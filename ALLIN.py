@@ -100,7 +100,7 @@ for times in range(1):
                 node=tagger.parseToNode(line)
                 while node:
                     feats=node.feature.split(",")
-                    if feats[0]=="動詞" or feats[0]=="名詞":
+                    if (feats[0]=="動詞" or feats[0]=="名詞")and re.fullmatch("こと"|"もの"|"いる"|"ある"|"する"|"ゐる",node.surface)==None:
                         temp.append(node.surface)
                     node=node.next
                 matchlist=[]
